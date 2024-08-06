@@ -1,0 +1,21 @@
+<?php    
+// Ganti dengan token bot Telegram kamu
+define('TELEGRAM_BOT_TOKEN', 'bot token anda');
+// Ganti dengan chat ID grup atau channel Telegram kamu
+define('TELEGRAM_CHAT_ID', 'id  chat atau id grup telegram');
+
+ function admin_login_notify($vars) 
+ {        
+  $adminid = $vars['username'];      
+  $ip=$_SERVER['REMOTE_ADDR'];
+  $subject = "WHMCS Admin Login " .  $adminid . " from " . $ip;
+  $stamp_date = date('Y-m-d H:i:s');
+  $message = "✅✅✅✅✅\n*WHMCS Admin Login*  \n\n👷‍♂️ Admin User : *{$adminid}* \n🌐 Dari IP : {$ip} \n🕐 Waktu : {$stamp_date} ";
+
+  $url = "https://api.telegram.org/bot" . TELEGRAM_BOT_TOKEN . "/sendMessage?chat_id=" . TELEGRAM_CHAT_ID . "&text=" . urlencode($message) . "&parse_mode=Markdown";
+  file_get_contents($url);
+
+ }    
+
+ add_hook("AdminLogin",1,"admin_login_notify");    
+?>
